@@ -11,11 +11,11 @@ namespace Catalog.Controllers
     [Route("[controller]")]// makes the endpoint the name of this controller. Alternatively, we could specify the route as "items"
     public class ItemsController : ControllerBase // inherit from ControllerBase to make this class into a controller class, specifically
     {
-        private readonly InMemoryItemsRepository repository;
+        private readonly IItemsRepository repository;
 
-        public ItemsController()
+        public ItemsController(IItemsRepository repository) // dependency injection
         {
-            repository = new InMemoryItemsRepository();
+            this.repository = repository;
         }
         
         [HttpGet] // GET/items will call this method
@@ -34,7 +34,7 @@ namespace Catalog.Controllers
             {
                 return NotFound();
             }
-            return item;
+            return Ok(item);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FCCRPGCatalog.Repositiories;
 
-public class InMemoryItemsRepository
+public class InMemoryItemsRepository : IItemsRepository
 {
     private readonly List<Item> items = new()
     {
