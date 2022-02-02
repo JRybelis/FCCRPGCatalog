@@ -8,4 +8,5 @@ public interface IItemsRepository
 {
     IEnumerable<Item> GetItems();
     Item GetItemById(Guid id);
+    void CreateItem(Item item);
 }
