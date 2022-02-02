@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
+using FCCRPGCatalog;
+using FCCRPGCatalog.Dtos;
 using FCCRPGCatalog.Entities;
 using FCCRPGCatalog.Repositiories;
 
@@ -19,14 +21,14 @@ namespace Catalog.Controllers
         }
         
         [HttpGet] // GET/items will call this method
-        public IEnumerable<Item> GetItems()
+        public IEnumerable<ItemDto> GetItems()
         {
-            var items = repository.GetItems();
+            var items = repository.GetItems().Select(item => item.AsDto()); // using static extension method to map entity to dto
             return items;
         }
 
         [HttpGet("{id}")] // GET/items/{id}
-        public ActionResult<Item> GetItemById(Guid id)
+        public ActionResult<ItemDto> GetItemById(Guid id)
         {
             var item = repository.GetItemById(id);
 
@@ -34,7 +36,7 @@ namespace Catalog.Controllers
             {
                 return NotFound();
             }
-            return Ok(item);
+            return Ok(item.AsDto());
         }
     }
 }
