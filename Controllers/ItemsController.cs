@@ -49,7 +49,26 @@ namespace Catalog.Controllers
             };
             repository.CreateItem(item);
 
-            return CreatedAtAction(nameof(GetItemById), new {id = item.Id}, item.AsDto()); // returns the newly created item as GetItemById call in the response body
-        } 
+            return CreatedAtAction(nameof(GetItemById), new {id = item.Id}, item.AsDto()); // takes the newly created item, maps it as itemDto and returns it as GetItemById call in the response body
+        }
+
+        [HttpPut("{id}")] //Post/Items/{id}
+        public ActionResult UpdateItem (Guid id, UpdateItemDto updateItemDto)
+        {
+            var existingItem = repository.GetItemById(id);
+            
+            if (existingItem is null)
+            {
+                return NotFound();
+            }
+
+            Item updatedItem = existingItem with // with expression helps create a copy of the existingItem with the props declared below and assign it to updatedItem
+            {
+                Name = updateItemDto.Name, Price = updateItemDto.Price
+            };
+            
+            repository.UpdateItem(updatedItem);
+            return NoContent(); // the convention for HttpPut is to return nothing
+        }
     }
 }
