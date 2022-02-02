@@ -39,7 +39,7 @@ namespace Catalog.Controllers
             return Ok(item.AsDto());
         }
 
-        [HttpPost] // Post/items
+        [HttpPost] // POST/items
         public ActionResult<ItemDto> CreateItem(CreateItemDto createItemDto)
         {
             Item item = new()
@@ -52,7 +52,7 @@ namespace Catalog.Controllers
             return CreatedAtAction(nameof(GetItemById), new {id = item.Id}, item.AsDto()); // takes the newly created item, maps it as itemDto and returns it as GetItemById call in the response body
         }
 
-        [HttpPut("{id}")] //Post/Items/{id}
+        [HttpPut("{id}")] //PUT/items/{id}
         public ActionResult UpdateItem (Guid id, UpdateItemDto updateItemDto)
         {
             var existingItem = repository.GetItemById(id);
@@ -69,6 +69,20 @@ namespace Catalog.Controllers
             
             repository.UpdateItem(updatedItem);
             return NoContent(); // the convention for HttpPut is to return nothing
+        }
+
+        [HttpDelete("{id}")] // DELETE/items/{id}
+        public ActionResult DeleteItem(Guid id)
+        {
+            var existingItem = repository.GetItemById(id);
+            
+            if (existingItem is null)
+            {
+                return NotFound();
+            }
+            
+            repository.DeleteItem(id);
+            return NoContent();
         }
     }
 }
