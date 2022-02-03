@@ -1,7 +1,7 @@
 using FCCRPGCatalog.Entities;
-using System.Linq;
+using FCCRPGCatalog.Repositiories;
 
-namespace FCCRPGCatalog.Repositiories;
+namespace FCCRPGCatalog.Repositories;
 
 public class InMemoryItemsRepository : IItemsRepository
 {
